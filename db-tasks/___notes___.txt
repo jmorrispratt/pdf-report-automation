@@ -1,0 +1,49 @@
+--------------------------------------------------------------------
+
+Como conjunto de datos para el análisis y diseño de la BD tomé el 'emihec24-TERRA13.xlsx', pues el 'iredge_stock_quotes-recortada.csv' no lo entiendo muy bien dado que no conozco a profundidad su procedencia.
+
+--------------------------------------------------------------------
+
+Escogí para los strings el tipo 'varchar(n)' y no 'text' para contemplar que en un futuro la base de datos tuviese que migrar para otro gestor (MySQL, etc.), ya que 'text' no pertenece al estandar SQL y es una adición particular de PostgreSQL al estandar.
+
+--------------------------------------------------------------------
+
+Escogí 'varchar(n)' sobre 'char(n)' porque así puedo manejar cambios significativos en la dimensión de los strings y mantengo la eficiencia, pues en PostgreSQL las operaciones son igual de eficientes para esos 2 tipos de datos.
+
+--------------------------------------------------------------------
+
+Para el id de las acciones (acción de compra-venta) decidí utilizar el tipo de datos 'serial', ya que es PostgreSQL el que automáticamente lo incrementa y así no debemos preocuparnos de eso.
+
+--------------------------------------------------------------------
+
+Por el momento decidí no crear índices para optimizar las búsquedas, siguiendo el consejo de Donald Knut: "Premature optimization is the root of all evil". Luego de hacer profiling a las consultas, procedimientos almacenados y otras operaciones sobre la BD haré las optimizaciones pertinentes en caso que sean necesarias.
+
+Tomando como referencia el fichero 'emihec24-TERRA13.xlsx', en esa semana se realizaron 3586 acciones. Redondeando a un promedio de 3600 acciones semanales, en un mes habrían 14400 acciones, en un año 172800 y en un quinquenio 864000. En 5 años de funcionamiento el sistema contará con menos de 1 millón de registros, lo cual constituye una cifra aceptable en el contexto de las bases de datos.
+
+En caso de que fuera necesario, creo que se deberían crear índices sobre las columnas: 'time_stamp' (para acelerar las búsquedas en intervalos de tiempo), 'buyer' y 'seller' (para acelerar las búsquedas destinadas a compañías en específico).
+
+--------------------------------------------------------------------
+
+Por el momento no voy a incluir información adicional sobre las compañías ni los proveedores de datos, sólo su nombre. En un futuro se pudiera incluir otras informaciones como teléfono, sitio web, fax, código postal, dirección, etc., etc.
+
+--------------------------------------------------------------------
+
+Dado que se usó como referente el fichero 'emihec24-TERRA13.xlsx', se asumión que los registros (filas o acciones de la bolsa) son 'únicos' pues:
+	. Había gran variedad de acciones que tuvieron lugar en la misma fecha y a la misma hora.
+	. En los datos se encontraron acciones de una empresa consigo misma (línea 18 del .xlsx).
+	. Incluso en la misma fecha y hora, las mismas 2 compañías pueden realizar más de una acción (líneas 15 y 17 del .xlsx).
+	. Como no hay columnas representativas, la llave primaría tendría que ser prácticamente todas las columnas.
+
+--------------------------------------------------------------------
+
+Voy a crear los scripts para poder crear la BD cada vez que sea necesario, pero a partir de los scripts no se puede poblar la BD. Una posibilidad es la de almacenar los ficheros con las acciones de la bolsa (los .csv o .xls) como datos binarios (como BLOB) en la base de datos. Entonces, cuando se desee poblar la BD, se pueden parsear nuevamente los datos e insertarlos en BD.
+
+Por el momento no voy a hacer esto. En caso de que sea necesario se le agregará a la base de datos. Por cierto, esta tarea también se puede automatizar, la de insertar los ficheros de datos en la BD una vez que se han descargado.
+
+--------------------------------------------------------------------
+
+Para las columnas de 'dinero' voy a utilizar el tipo de datos numeric(n, m). Este es más intuitivo (a mi consideración) que el tipo de datos 'float'. Al final, los precios van a estar acotados superiormente.
+
+--------------------------------------------------------------------
+
+--------------------------------------------------------------------
