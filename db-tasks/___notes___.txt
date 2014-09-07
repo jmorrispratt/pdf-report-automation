@@ -1,5 +1,11 @@
 --------------------------------------------------------------------
 
+Como cada fichero (.csv o .xlsx) de acciones tiene un nombre, creo que en la base de datos debería haber referencias a los clientes. En este caso, lo que ahora es la tabla 'companies' a lo mejor debería recibir un nombre de intermediarios o algo parecido. Quizás debería haber una tabla asociada a los clientes (Terra, Azteca BAS, etc.) y una llave foránea en la tabla 'stock_actions' para la compañía (cliente) a la cual corresponden esas acciones en la bolsa.
+
+Por cierto, resulta lógico además considerar la posibilidad de construir un índice para esa nueva columna, pues de esta manera se podrían acelerar las consultas asociadas a compañías o clientes específicos.
+
+--------------------------------------------------------------------
+
 Como conjunto de datos para el análisis y diseño de la BD tomé el 'emihec24-TERRA13.xlsx', pues el 'iredge_stock_quotes-recortada.csv' no lo entiendo muy bien dado que no conozco a profundidad su procedencia.
 
 --------------------------------------------------------------------
