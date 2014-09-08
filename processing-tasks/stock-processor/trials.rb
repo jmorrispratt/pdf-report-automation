@@ -86,19 +86,38 @@
 
 # ------------------------------------------------------------------
 
-#load './stock_reader/csv_stock_reader.rb'
+#require './stock_readers.rb'
 #
 #uri_seeds = Array.new()
 #
-##uri_seeds << './datasources/'
-##csv_st_rdr = CsvStockReader.new(uri_seeds, FILE_SYSTEM_SRC)
+#uri_seeds << './datasources/'
+#csv_st_rdr = CsvStockReader.new(uri_seeds, FILE_SYSTEM_SRC)
 #
 #
-#uri_seeds << 'http://localhost:8000/azteca-stocks.csv'
-#uri_seeds << 'http://localhost:8000/terra-stocks.csv'
-#csv_st_rdr = CsvStockReader.new(uri_seeds, WEB_SRC)
+##uri_seeds << 'http://localhost:8000/azteca-stocks.csv'
+##uri_seeds << 'http://localhost:8000/terra-stocks.csv'
+##csv_st_rdr = CsvStockReader.new(uri_seeds, WEB_SRC)
 #
 ## raeding stock streams from sources
 #stock_streams = csv_st_rdr.read_stocks_from_sources()
+#
+#k = 0
+
+# ------------------------------------------------------------------
+
+#require './data_providers.rb'
+#
+#uri_seeds = Array.new()
+#
+##uri_seeds << 'http://localhost:8000/azteca-stocks.csv'
+##uri_seeds << 'http://localhost:8000/terra-stocks.csv'
+##data_provider = YahooDataProvider.new(uri_seeds)
+#
+#
+#
+#uri_seeds << './datasources/'
+#data_provider = InfoselDataProvider.new(uri_seeds)
+#
+#stocks = data_provider.get_stocks()
 #
 #k = 0
