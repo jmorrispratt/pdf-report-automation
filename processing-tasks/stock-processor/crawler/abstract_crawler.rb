@@ -1,4 +1,4 @@
-# simulating a C# abstract class
+# represents a generic crawler
 class AbstractCrawler < Object
   # protected members
   protected
@@ -89,6 +89,9 @@ class AbstractCrawler < Object
 
       # setting flag of not crawling
       @is_crawling = false
+
+      # returning the crawling results
+      return @crawling_result
     end
 
     # gets the uri seeds that are used for crawling
