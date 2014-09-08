@@ -1,0 +1,7 @@
+# excluding all .idea folders
+/db-tasks/ruby/.idea/
+/processing-tasks/stock-processor/.idea/
+/processing-tasks/dj_yahoo_finance/.idea/
+
+# excluding .pyc files
+*.pyc
