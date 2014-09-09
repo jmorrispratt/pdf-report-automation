@@ -1,14 +1,14 @@
 COMMENT ON DATABASE stock_data
   IS 'This is the database for the ''bmv'' stock data';
 
--- creating the 'companies' table
-CREATE TABLE companies
+-- creating the 'mediators' table
+CREATE TABLE mediators
 (
-		company_id 		serial,
-		company_name	VARCHAR(50) NOT NULL UNIQUE,	-- i guess 50 characters are enough
+		mediator_id 		serial,
+		mediator_name		VARCHAR(50) NOT NULL UNIQUE,	-- i guess 50 characters are enough
 
 		-- primary key constraints
-		CONSTRAINT companies_pk PRIMARY KEY(company_id)
+		CONSTRAINT mediators_pk PRIMARY KEY(mediator_id)
 );
 
 -- creating the 'data_sources' table
@@ -21,8 +21,8 @@ CREATE TABLE data_sources
 		CONSTRAINT data_sources_pk PRIMARY KEY(data_src_id)
 );
 
--- creating the 'stock_actions' table
-CREATE TABLE stock_actions
+-- creating the 'infosel_stock_actions' table
+CREATE TABLE infosel_stock_actions
 (
 		action_id			serial,
 		buyer_id			INT NOT NULL,
@@ -40,13 +40,13 @@ CREATE TABLE stock_actions
 		CONSTRAINT timestamp_must_be_after_y2k CHECK(time_stamp > '2000-01-01'),		-- stock action after y2k
 
 		-- primary key constraints
-		CONSTRAINT stock_actions_pk PRIMARY KEY(action_id),
+		CONSTRAINT infosel_stock_actions_pk PRIMARY KEY(action_id),
 
 		-- foreign key constraints
-		CONSTRAINT stock_actions_buyer_id_fk FOREIGN KEY(buyer_id) REFERENCES
-			companies(company_id) ON UPDATE CASCADE ON DELETE CASCADE,
-		CONSTRAINT stock_actions_seller_id_fk FOREIGN KEY(seller_id) REFERENCES
-			companies(company_id) ON UPDATE CASCADE ON DELETE CASCADE,
-		CONSTRAINT stock_actions_data_src_id_fk FOREIGN KEY(data_src_id) REFERENCES
+		CONSTRAINT infosel_stock_actions_buyer_id_fk FOREIGN KEY(buyer_id) REFERENCES
+			mediators(mediator_id) ON UPDATE CASCADE ON DELETE CASCADE,
+		CONSTRAINT infosel_stock_actions_seller_id_fk FOREIGN KEY(seller_id) REFERENCES
+			mediators(mediator_id) ON UPDATE CASCADE ON DELETE CASCADE,
+		CONSTRAINT infosel_stock_actions_data_src_id_fk FOREIGN KEY(data_src_id) REFERENCES
 			data_sources(data_src_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
