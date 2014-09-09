@@ -25,8 +25,8 @@ CREATE TABLE mediators
 CREATE TABLE enterprises
 (
 		enterprise_id				serial,
-		enterprise_ticker		VARCHAR(50) NOT NULL,		-- i guess 50 characters are enough
-		enterprise_name			VARCHAR(100) NOT NULL,	-- i guess 100 characters are enough
+		enterprise_ticker		VARCHAR(50) NOT NULL UNIQUE,		-- i guess 50 characters are enough
+		enterprise_name			VARCHAR(100) NOT NULL,					-- i guess 100 characters are enough
 		
 		-- primary key constraints
 		CONSTRAINT enterprises_pk PRIMARY KEY(enterprise_id)
