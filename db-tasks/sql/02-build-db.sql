@@ -11,15 +11,15 @@ CREATE TABLE mediators
 		CONSTRAINT mediators_pk PRIMARY KEY(mediator_id)
 );
 
--- creating the 'data_sources' table
-CREATE TABLE data_sources
-(
-		data_src_id		serial,
-		data_src_name	VARCHAR(50) NOT NULL UNIQUE,	-- i guess 50 characters are enough
-
-		-- primary key constraints
-		CONSTRAINT data_sources_pk PRIMARY KEY(data_src_id)
-);
+-- -- creating the 'data_sources' table
+-- CREATE TABLE data_sources
+-- (
+-- 		data_src_id		serial,
+-- 		data_src_name	VARCHAR(50) NOT NULL UNIQUE,	-- i guess 50 characters are enough
+-- 
+-- 		-- primary key constraints
+-- 		CONSTRAINT data_sources_pk PRIMARY KEY(data_src_id)
+-- );
 
 -- creating the 'enterprises' table
 CREATE TABLE enterprises
@@ -35,14 +35,15 @@ CREATE TABLE enterprises
 -- creating the 'infosel_stock_actions' table
 CREATE TABLE infosel_stock_actions
 (
-		action_id			serial,
-		buyer_id			INT NOT NULL,
-		seller_id			INT NOT NULL,
-		volume				INT NOT NULL,
-		price					NUMERIC(5,2) NOT NULL,		-- upper bound of 1000
-		total					NUMERIC(10,2) NOT NULL ,	-- upper bound of 100 millions
-		time_stamp		TIMESTAMP NOT NULL ,
-		data_src_id		INT NOT NULL,
+		action_id				serial,
+		buyer_id				INT NOT NULL,
+		seller_id				INT NOT NULL,
+		volume					INT NOT NULL,
+		price						NUMERIC(5,2) NOT NULL,		-- upper bound of 1000
+		total						NUMERIC(10,2) NOT NULL ,	-- upper bound of 100 millions
+		time_stamp			TIMESTAMP NOT NULL ,
+		stock_owner_id	INT NOT NULL,
+-- 		data_src_id			INT NOT NULL,
 
 		-- column constraints
 		CONSTRAINT volume_can_not_be_negative CHECK(volume >= 0),
@@ -58,6 +59,8 @@ CREATE TABLE infosel_stock_actions
 			mediators(mediator_id) ON UPDATE CASCADE ON DELETE CASCADE,
 		CONSTRAINT infosel_stock_actions_seller_id_fk FOREIGN KEY(seller_id) REFERENCES
 			mediators(mediator_id) ON UPDATE CASCADE ON DELETE CASCADE,
-		CONSTRAINT infosel_stock_actions_data_src_id_fk FOREIGN KEY(data_src_id) REFERENCES
-			data_sources(data_src_id) ON UPDATE CASCADE ON DELETE CASCADE
+		CONSTRAINT infosel_stock_actions_stock_owner_id_fk FOREIGN KEY(stock_owner_id) REFERENCES 
+			enterprises(enterprise_id) ON UPDATE CASCADE ON DELETE CASCADE
+-- 		CONSTRAINT infosel_stock_actions_data_src_id_fk FOREIGN KEY(data_src_id) REFERENCES
+-- 			data_sources(data_src_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
