@@ -21,6 +21,17 @@ CREATE TABLE data_sources
 		CONSTRAINT data_sources_pk PRIMARY KEY(data_src_id)
 );
 
+-- creating the 'enterprises' table
+CREATE TABLE enterprises
+(
+		enterprise_id				serial,
+		enterprise_ticker		VARCHAR(50) NOT NULL,		-- i guess 50 characters are enough
+		enterprise_name			VARCHAR(100) NOT NULL,	-- i guess 100 characters are enough
+		
+		-- primary key constraints
+		CONSTRAINT enterprises_pk PRIMARY KEY(enterprise_id)
+);
+
 -- creating the 'infosel_stock_actions' table
 CREATE TABLE infosel_stock_actions
 (
