@@ -1,73 +1,95 @@
 require './stock_readers.rb'
 
-TITLE = :title
-SOCIAL_REASON = :social_reason
-TICKER = :ticker
-SERIES = :series
-START_DATE = :start_date
-END_DATE = :end_date
-ACTIONS_META = :actions_meta
-ACTIONS = :actions
-
-TITLE_INDEX = 0
-SOCIAL_INDEX = 2
-TICKER_INDEX = 3
-SERIES_INDEX = 4
-START_DATE_INDEX = 5
-END_DATE_INDEX = 6
-FACTS_META_INDEX = 10
-FACTS_INDEX = 11
-
 # ---------------------------------------------------------------------------------------------------
 
 # represents an abstract data provider
 class AbstractDataProvider < Object
+  # static variables
+  TITLE = :title
+  SOCIAL_REASON = :social_reason
+  TICKER = :ticker
+  SERIES = :series
+  START_DATE = :start_date
+  END_DATE = :end_date
+  ACTIONS_META = :actions_meta
+  ACTIONS = :actions
+
   # protected members
   protected
-  # represents the stock reader (CsvStockReader, JsonStockReader, etc.)
-  @stock_reader = nil
+    # represents the stock reader (CsvStockReader, JsonStockReader, etc.)
+    @stock_reader = nil
 
-  # represents the information of all stocks
-  @stocks = nil
+    # represents the information of all stocks
+    @stocks = nil
+
+    # processes a single 'data_stream'
+    def process_data_stream(data_stream)
+      # empty --> this is like an abstract class method
+    end
 
   # public members
   public
-  def get_stocks()
-    return @stocks
-  end
+    def get_stocks()
+      return @stocks
+    end
 
-  # initializer (constructor)
-  def initialize(stock_sources)
-    ## initializing data structures
-    #@facts = Array.new()
+    # initializer (constructor)
+    def initialize(stock_sources)
+      ## initializing data structures
+      #@facts = Array.new()
 
-    # initializing data structures
-    @stocks = Array.new()
+      # initializing data structures
+      @stocks = Array.new()
 
-    # getting information from data stream
-    get_info_from_streams()
-  end
+      # getting information from data stream
+      get_info_from_streams()
+    end
 
   # private members
   private
-  # gets information from 'data_streams'
-  def get_info_from_streams()
-    # setting the data stream to a local variable
-    data_streams = @stock_reader.read_stocks_from_sources()
+    # gets information from 'data_streams'
+    def get_info_from_streams()
+      # setting the data stream to a local variable
+      data_streams = @stock_reader.read_stocks_from_sources()
 
-    # processing all the data streams
-    for stream in data_streams do
-      # processing the curent 'data_stream'
-      stock_info = process_data_stream(stream)
+      # processing all the data streams
+      for stream in data_streams do
+        # processing the curent 'data_stream'
+        stock_info = process_data_stream(stream)
 
-      # storing the processed 'stock_info'
-      @stocks << stock_info
+        # storing the processed 'stock_info'
+        @stocks << stock_info
+      end
+
+      # returning all the gathered information
+      return @stocks
     end
+end
 
-    # returning all the gathered information
-    return @stocks
+# ---------------------------------------------------------------------------------------------------
+
+class InfoselDataProvider < AbstractDataProvider
+  # implementing only the abstract methods of AbstractCrawler
+
+  TITLE_INDEX = 0
+  SOCIAL_INDEX = 2
+  TICKER_INDEX = 3
+  SERIES_INDEX = 4
+  START_DATE_INDEX = 5
+  END_DATE_INDEX = 6
+  FACTS_META_INDEX = 10
+  FACTS_INDEX = 11
+
+  # overriding initializer (constructor)
+  def initialize(stock_sources)
+    # setting the 'stock_reader' to a 'web_stock_reader'
+    @stock_reader = CsvStockReader.new(stock_sources, FILE_SYSTEM_SRC)
+
+    # calling base constructor
+    super(stock_sources)
   end
 
+  # processes a single 'data_stream'
   def process_data_stream(data_stream)
     # creating the structure that will hold the 'stock_info'
     stock_info = Hash.new()
@@ -124,24 +146,11 @@ end
 
 # ---------------------------------------------------------------------------------------------------
 
-class InfoselDataProvider < AbstractDataProvider
-  # implementing only the abstract methods of AbstractCrawler
-
-  # overriding initializer (constructor)
-  def initialize(stock_sources)
-    # setting the 'stock_reader' to a 'web_stock_reader'
-    @stock_reader = CsvStockReader.new(stock_sources, FILE_SYSTEM_SRC)
-
-    # calling base constructor
-    super(stock_sources)
-    # getting information from data stream
-  end
-end
-
-# ---------------------------------------------------------------------------------------------------
-
 class YahooDataProvider < AbstractDataProvider
   # implementing only the abstract methods of AbstractCrawler
+
+  FACTS_META_INDEX = 0
+  FACTS_INDEX = 1
 
   # overriding initializer (constructor)
   def initialize(stock_sources)
@@ -151,6 +160,29 @@ class YahooDataProvider < AbstractDataProvider
     # calling base constructor
     super(stock_sources)
     # getting information from data stream
+  end
+
+  # processes a single 'data_stream'
+  def process_data_stream(data_stream)
+    # creating the structure that will hold the 'stock_info'
+    stock_info = Hash.new()
+
+    # getting the 'facts metadata'
+    stock_info[:actions_meta] = data_stream[FACTS_META_INDEX]
+
+    # getting 'facts'
+    ub = data_stream.count() - 1
+
+    actions = Array.new()
+    # getting actual stock actions
+    for i in FACTS_INDEX..ub
+      # storing raw facts information
+      actions << data_stream[i]
+    end
+    stock_info[:actions] = actions
+
+    # returning the gathered 'stock_info'
+    return stock_info
   end
 end
 

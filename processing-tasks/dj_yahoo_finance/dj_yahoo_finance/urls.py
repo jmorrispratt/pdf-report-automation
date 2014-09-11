@@ -11,6 +11,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^$', 'yahoo_finance.views.home'),
-    url(r'azteca-stocks.csv', 'yahoo_finance.views.get_azteca_csv'),
+    # url(r'azteca-stocks.csv', 'yahoo_finance.views.get_azteca_csv'),
     url(r'terra-stocks.csv', 'yahoo_finance.views.get_terra_csv'),
 )

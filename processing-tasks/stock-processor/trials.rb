@@ -109,14 +109,14 @@
 #
 #uri_seeds = Array.new()
 #
-##uri_seeds << 'http://localhost:8000/azteca-stocks.csv'
-##uri_seeds << 'http://localhost:8000/terra-stocks.csv'
-##data_provider = YahooDataProvider.new(uri_seeds)
+## uri_seeds << 'http://localhost:8000/azteca-stocks.csv'
+#uri_seeds << 'http://localhost:8000/terra-stocks.csv'
+#data_provider = YahooDataProvider.new(uri_seeds)
 #
 #
 #
-#uri_seeds << './datasources/'
-#data_provider = InfoselDataProvider.new(uri_seeds)
+##uri_seeds << './datasources/'
+##data_provider = InfoselDataProvider.new(uri_seeds)
 #
 #stocks = data_provider.get_stocks()
 #
