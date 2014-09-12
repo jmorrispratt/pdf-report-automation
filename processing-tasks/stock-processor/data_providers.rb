@@ -69,7 +69,7 @@ end
 # ---------------------------------------------------------------------------------------------------
 
 class InfoselDataProvider < AbstractDataProvider
-  # implementing only the abstract methods of AbstractCrawler
+  # implementing only the abstract methods of AbstractDataProvider
 
   TITLE_INDEX = 0
   SOCIAL_INDEX = 2
@@ -148,7 +148,7 @@ end
 # ---------------------------------------------------------------------------------------------------
 
 class YahooDataProvider < AbstractDataProvider
-  # implementing only the abstract methods of AbstractCrawler
+  # implementing only the abstract methods of AbstractDataProvider
 
   FACTS_META_INDEX = 0
   FACTS_INDEX = 1
