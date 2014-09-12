@@ -109,3 +109,30 @@ class CsvStockReader < AbstractStockReader
 end
 
 # ---------------------------------------------------------------------------------------------------
+
+class PlainTextStockReader < AbstractStockReader
+  # implementing only the abstract methods of AbstractStockReader
+
+  # process a stock handle according to specific needs
+  def process_stock_handle(stock_handle)
+    # trying to process the 'stock_handle' in the case of plain text files files
+    begin
+      # applying utf8 encoding
+      # plain_string = stock_handle.read.encode!('UTF-8', 'iso-8859-1', invalid: :replace)
+
+      plain_string = stock_handle.read().encode('UTF-8', 'iso-8859-1', invalid: :replace).gsub(/\t/, ',')
+
+      # parsing the raw .csv string
+      plain_parsed = CSV.parse(plain_string)
+    rescue Exception => e
+      # the handle is nil
+      plain_parsed = nil
+      puts(e)
+    end
+
+    # returning the parsed plain text (by rows)
+    return plain_parsed
+  end
+end
+
+# ---------------------------------------------------------------------------------------------------

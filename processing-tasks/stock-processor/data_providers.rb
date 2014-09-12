@@ -83,7 +83,8 @@ class InfoselDataProvider < AbstractDataProvider
   # overriding initializer (constructor)
   def initialize(stock_sources)
     # setting the 'stock_reader' to a 'web_stock_reader'
-    @stock_reader = CsvStockReader.new(stock_sources, FILE_SYSTEM_SRC)
+    # @stock_reader = CsvStockReader.new(stock_sources, FILE_SYSTEM_SRC)
+    @stock_reader = PlainTextStockReader.new(stock_sources, FILE_SYSTEM_SRC)
 
     # calling base constructor
     super(stock_sources)

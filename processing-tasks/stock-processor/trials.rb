@@ -105,19 +105,22 @@
 
 # ------------------------------------------------------------------
 
-#require './data_providers.rb'
-#
-#uri_seeds = Array.new()
-#
+require './data_providers.rb'
+
+start = Time.now().to_f()
+
+uri_seeds = Array.new()
+
 ## uri_seeds << 'http://localhost:8000/azteca-stocks.csv'
 #uri_seeds << 'http://localhost:8000/terra-stocks.csv'
 #data_provider = YahooDataProvider.new(uri_seeds)
-#
-#
-#
-##uri_seeds << './datasources/'
-##data_provider = InfoselDataProvider.new(uri_seeds)
-#
-#stocks = data_provider.get_stocks()
-#
-#k = 0
+
+uri_seeds << './datasources/'
+data_provider = InfoselDataProvider.new(uri_seeds)
+
+# getting stocks information
+stocks = data_provider.get_stocks()
+
+# measuring taken time
+time_taken = Time.now().to_f() - start
+puts("#{(time_taken * 1000.0).to_i()} ms")
