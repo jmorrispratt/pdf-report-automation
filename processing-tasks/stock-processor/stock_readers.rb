@@ -68,6 +68,9 @@ class AbstractStockReader < Object
 
       # adding the processed stream to the data streams
       @data_streams << processed_stream
+
+      # closing file handle
+      handle.close
     end
 
     # returning the resulting streams
@@ -116,10 +119,9 @@ class PlainTextStockReader < AbstractStockReader
   # process a stock handle according to specific needs
   def process_stock_handle(stock_handle)
     # trying to process the 'stock_handle' in the case of plain text files files
-    begin
-      # applying utf8 encoding
-      # plain_string = stock_handle.read.encode!('UTF-8', 'iso-8859-1', invalid: :replace)
 
+    begin
+      # applying utf8 encoding and replacing tabs with commas
       plain_string = stock_handle.read().encode('UTF-8', 'iso-8859-1', invalid: :replace).gsub(/\t/, ',')
 
       # parsing the raw .csv string
