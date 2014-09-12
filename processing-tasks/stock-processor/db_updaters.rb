@@ -1,4 +1,4 @@
-require './stock_readers.rb'
+require './data_providers.rb'
 
 # ---------------------------------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ class AbstractDbStockUpdater < Object
     @db_pass = nil
 
   public
-    def initialize(uri_seeds, db_name, db_user, db_pass)
+    def initialize(db_name, db_user, db_pass, uri_seeds: [])
       # initializing the uri seeds
       @uri_seeds = uri_seeds
 
@@ -28,6 +28,15 @@ class AbstractDbStockUpdater < Object
       @db_name = db_name
       @db_user = db_user
       @db_pass = db_pass
+    end
+
+    def set_uri_seeds(value)
+      if value == nil then
+        return
+      end
+
+      # setting the uri seeds
+      @uri_seeds = value
     end
 
     def update_db()
@@ -52,9 +61,11 @@ class InfoselDbStockUpdater < AbstractDbStockUpdater
     return uri_seeds
   end
 
-  def initialize(uri_seeds, db_name, db_user, db_pass)
+  # -----------------------------------------------------
+
+  def initialize(db_name, db_user, db_pass, uri_seeds: [])
     # calling base constructor
-    super(uri_seeds, db_name, db_user, db_pass)
+    super(db_name, db_user, db_pass, uri_seeds: uri_seeds)
     # getting information from data stream
 
     # initializing the data provider
@@ -62,7 +73,7 @@ class InfoselDbStockUpdater < AbstractDbStockUpdater
   end
 
   def update_db()
-    # empty --> this is like an abstract class method
+    return @data_provider.get_stocks()
   end
 end
 
@@ -83,9 +94,11 @@ class YahooFinanceDbStockUpdater < AbstractDbStockUpdater
     return uri_seeds
   end
 
-  def initialize(uri_seeds, db_name, db_user, db_pass)
+  # -----------------------------------------------------
+
+  def initialize(db_name, db_user, db_pass, uri_seeds: [])
     # calling base constructor
-    super(uri_seeds, db_name, db_user, db_pass)
+    super(db_name, db_user, db_pass, uri_seeds: uri_seeds)
     # getting information from data stream
 
     # initializing the data provider
@@ -93,7 +106,7 @@ class YahooFinanceDbStockUpdater < AbstractDbStockUpdater
   end
 
   def update_db()
-    # empty --> this is like an abstract class method
+    return @data_provider.get_stocks()
   end
 end
 
