@@ -129,6 +129,14 @@
 
 # ------------------------------------------------------------------
 
-require './db_adapters.rb'
+a = Array.new()
+a << 1
+a << 2
+a << 3
+a << 4
+a << 5
 
-a = AbstractStocksDbAdapter.new('no_db_name', 'no_db_user', 'no_db_pass')
+# each
+a.each do |s|
+  puts(s)
+end

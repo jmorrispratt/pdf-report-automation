@@ -15,4 +15,4 @@ def get_terra_csv(request):
 
 
 def get_maxcomp_csv(request):
-    return render_to_response('maxcomp.csv', {}, content_type='text/csv')
+    return render_to_response('maxcom.csv', {}, content_type='text/csv')

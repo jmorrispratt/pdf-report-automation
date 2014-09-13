@@ -83,7 +83,7 @@ class YahooFinanceDbStockUpdater < AbstractDbStockUpdater
 
     # adding the uri seeds
     uri_seeds << 'http://localhost:8000/terra-stocks.csv'
-    uri_seeds << 'http://localhost:8000/maxcomp-stocks.csv'
+    uri_seeds << 'http://localhost:8000/maxcom-stocks.csv'
 
     # returning the results
     return uri_seeds
@@ -107,37 +107,17 @@ class YahooFinanceDbStockUpdater < AbstractDbStockUpdater
     # esto debe ir en un array
     tickers = Array.new()
 
-    # defining the 'stock_owner_id' in this way to be more understandable
-    terra_ticker =  'TERRA'
-    maxcom_ticker = 'MAXCOM'
-    azteca_ticker = 'AZTECA'
-
     # adding the stock owner id's to the list
-    tickers << terra_ticker   # terra's ticker
-    tickers << maxcom_ticker  # maxcom's ticker
-    tickers << azteca_ticker  # azteca's ticker
+    tickers << 'TERRA'   # terra's ticker
+    tickers << 'MAXCOM'  # maxcom's ticker
 
-    for i in 0..clients_stock_list.length() do
+    ub = clients_stock_list.length() - 1
+    for i in 0..ub do
       # getting the current stock actions information
-      stock_actions = clients_stock_list[i][1] # the metadata is located at 0 index, but it's not important now
+      stock_actions = clients_stock_list[i][:actions] # the metadata is located at 0 index, but it's not important now
 
-      @db_adapter.insert_yahoo_stock_data()
-
-      # the sql script to be executed in the 'database'
-      sql_insertion_script = ''
-
-      # building the sql script to execute
-      for k in 0..stock_actions.length() do
-        # checking if 'stock_owner' exists in db
-        stock_owner_id = @db_adapter.get_stock_owner_id()
-        # adding 'stock_owner' to database
-        if stock_owner_id <= 0 then
-
-        end
-      end
-
-      # executing the sql script in db (inserting data in db)
-      @db_adapter.exec_sql_script(sql_insertion_script)
+      # adding 'current owner' yahoo finance data to database
+      @db_adapter.insert_yahoo_stock_data(stock_actions, tickers[i])
     end
   end
 end
