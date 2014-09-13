@@ -4,26 +4,37 @@
 -- INSERT INTO data_sources(data_src_name) VALUES('Yahoo Finance');
 
 -- populating the 'mediators' table
-INSERT INTO mediators(mediator_name) VALUES('Unknown');
-INSERT INTO mediators(mediator_name) VALUES('Grupo Bursátil Mexicano');
-INSERT INTO mediators(mediator_name) VALUES('Citibank');
-INSERT INTO mediators(mediator_name) VALUES('Actinver Casa de Bolsa');
-INSERT INTO mediators(mediator_name) VALUES('Deutsche Securities');
-INSERT INTO mediators(mediator_name) VALUES('Interacciones Casa de Bol');
-INSERT INTO mediators(mediator_name) VALUES('UBS Casa de Bolsa S.A.');
-INSERT INTO mediators(mediator_name) VALUES('Morgan Stanley México Cas');
-INSERT INTO mediators(mediator_name) VALUES('Valores Finamex');
-INSERT INTO mediators(mediator_name) VALUES('Vector Casa de Bolsa');
-INSERT INTO mediators(mediator_name) VALUES('Merrill Lynch');
-INSERT INTO mediators(mediator_name) VALUES('Ixe Casa de Bolsa');
-INSERT INTO mediators(mediator_name) VALUES('Punto Casa de Bolsa');
-INSERT INTO mediators(mediator_name) VALUES('CI Casa de Bolsa');
-INSERT INTO mediators(mediator_name) VALUES('Monex Casa de Bolsa');
-INSERT INTO mediators(mediator_name) VALUES('C.B. Ve por Más');
-INSERT INTO mediators(mediator_name) VALUES('C.B. Credit Suisse (México)');
-INSERT INTO mediators(mediator_name) VALUES('Scotia Casa de Bolsa');
-INSERT INTO mediators(mediator_name) VALUES('Inversora Bursátil');
+INSERT INTO mediators(mediator_name) VALUES('GRUPO BURSATIL MEXICANO');
+INSERT INTO mediators(mediator_name) VALUES('CITIBANK');
+INSERT INTO mediators(mediator_name) VALUES('ACTINVER CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('DEUTSCHE SECURITIES');
+INSERT INTO mediators(mediator_name) VALUES('INTERACCIONES CASA DE BOL');
+INSERT INTO mediators(mediator_name) VALUES('UBS CASA DE BOLSA S.A.');
+INSERT INTO mediators(mediator_name) VALUES('MORGAN STANLEY MEXICO CAS');
+INSERT INTO mediators(mediator_name) VALUES('VALORES FINAMEX');
+INSERT INTO mediators(mediator_name) VALUES('VECTOR CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('MERRILL LYNCH');
+INSERT INTO mediators(mediator_name) VALUES('IXE CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('PUNTO CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('CI CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('MONEX CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('C.B. VE POR MAS');
+INSERT INTO mediators(mediator_name) VALUES('CB CREDIT SUISSE (MEXICO)');
+INSERT INTO mediators(mediator_name) VALUES('SCOTIA CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('INVERSORA BURSATIL');
+INSERT INTO mediators(mediator_name) VALUES('CASA DE BOLSA BANCOMER');
+INSERT INTO mediators(mediator_name) VALUES('SANTANDER DE MEXICO');
+INSERT INTO mediators(mediator_name) VALUES('HSBCB CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('MULTIVALORES CASA DE BOLS');
+INSERT INTO mediators(mediator_name) VALUES('JP MORGAN CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('BTGP CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('EVERCORE CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('INVEX CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('INTERCAM CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('VALUE CASA DE BOLSA');
+INSERT INTO mediators(mediator_name) VALUES('UNKNOWN');
 
 -- populating the 'enterprises' table
-INSERT INTO enterprises(enterprise_ticker, enterprise_name) VALUES('Terra', 'Pla Administradora Industrial, S. de R.L. de C.V. (Fibra Terra)');
-INSERT INTO enterprises(enterprise_ticker, enterprise_name) VALUES('Azteca', 'TV Azteca, S.A.B. de C.V.');
+INSERT INTO enterprises(enterprise_ticker, enterprise_name) VALUES('TERRA', 'PLA ADMINISTRADORA INDUSTRIAL, S. DE R.L. DE C.V. (FIBRA TERRA)');
+INSERT INTO enterprises(enterprise_ticker, enterprise_name) VALUES('AZTECA', 'TV AZTECA, S.A.B. DE C.V.');
+INSERT INTO enterprises(enterprise_ticker, enterprise_name) VALUES('MAXCOM', 'MAXCOM TELECOMUNICACIONES, S.A.B. DE C.V.');

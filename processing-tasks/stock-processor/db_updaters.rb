@@ -111,8 +111,16 @@ class YahooFinanceDbStockUpdater < AbstractDbStockUpdater
     clients_stock_list = @data_provider.get_stocks()
 
     # esto debe ir en un array
+    stock_owner_ids = Array.new()
+
+    # defining the 'stock_owner_id' in this way to be more understandable
     terra_id = 0
     maxcorp_id = 1
+
+    # adding the stock owner id's to the list
+    stock_owner_ids << 0  # these are terra's stock actions (180 actions)
+    stock_owner_ids << 1  # these are maxcomp's stock actions (177 actions)
+
 
     for i in 0..clients_stock_list.length() do
       k = 0
