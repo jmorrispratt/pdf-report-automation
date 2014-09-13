@@ -89,6 +89,7 @@ class YahooFinanceDbStockUpdater < AbstractDbStockUpdater
 
     # adding the uri seeds
     uri_seeds << 'http://localhost:8000/terra-stocks.csv'
+    uri_seeds << 'http://localhost:8000/maxcomp-stocks.csv'
 
     # returning the results
     return uri_seeds
@@ -106,7 +107,22 @@ class YahooFinanceDbStockUpdater < AbstractDbStockUpdater
   end
 
   def update_db()
-    return @data_provider.get_stocks()
+    # getting all the retrieved stocks
+    clients_stock_list = @data_provider.get_stocks()
+
+    # esto debe ir en un array
+    terra_id = 0
+    maxcorp_id = 1
+
+    for i in 0..clients_stock_list.length() do
+      k = 0
+    end
+
+    k = 0
+
+    #for clients_stock in clients_stock_list do
+    #
+    #end
   end
 end
 

@@ -1,6 +1,5 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
-import time
 
 
 def home(request):
@@ -13,3 +12,7 @@ def home(request):
 
 def get_terra_csv(request):
     return render_to_response('terra-13.csv', {}, content_type='text/csv')
+
+
+def get_maxcomp_csv(request):
+    return render_to_response('maxcomp.csv', {}, content_type='text/csv')

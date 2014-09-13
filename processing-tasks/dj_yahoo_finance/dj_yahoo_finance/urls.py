@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^$', 'yahoo_finance.views.home'),
     # url(r'azteca-stocks.csv', 'yahoo_finance.views.get_azteca_csv'),
     url(r'terra-stocks.csv', 'yahoo_finance.views.get_terra_csv'),
+    url(r'maxcomp-stocks.csv', 'yahoo_finance.views.get_maxcomp_csv'),
 )
