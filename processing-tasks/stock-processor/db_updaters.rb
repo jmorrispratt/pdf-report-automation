@@ -1,4 +1,5 @@
 require './data_providers.rb'
+require './db_adapters.rb'
 
 # ---------------------------------------------------------------------------------------------------
 
@@ -10,27 +11,20 @@ class AbstractDbStockUpdater < Object
     # represents the data provider
     @data_provider = nil
 
-    # represents the database name in which we will perform the operations
-    @db_name = nil
-
-    # represents the user used to connect to @db_name
-    @db_user = nil
-
-    # represents the password for @db_user
-    @db_pass = nil
+    # represents a stocks_db_adapter
+    @db_adapter = nil
 
   public
     def initialize(db_name, db_user, db_pass, uri_seeds: [])
       # initializing the uri seeds
       @uri_seeds = uri_seeds
 
-      # initializing the db related local variables
-      @db_name = db_name
-      @db_user = db_user
-      @db_pass = db_pass
+      # initializing the db adapter
+      @db_adapter = PgStocksDbAdapter.new(db_name, db_user, db_pass)
     end
 
     def set_uri_seeds(value)
+      # the uri_seeds 'value' must be valid
       if value == nil then
         return
       end
@@ -111,30 +105,46 @@ class YahooFinanceDbStockUpdater < AbstractDbStockUpdater
     clients_stock_list = @data_provider.get_stocks()
 
     # esto debe ir en un array
-    stock_owner_ids = Array.new()
+    tickers = Array.new()
 
     # defining the 'stock_owner_id' in this way to be more understandable
-    terra_id = 0
-    maxcorp_id = 1
+    terra_ticker =  'TERRA'
+    maxcom_ticker = 'MAXCOM'
+    azteca_ticker = 'AZTECA'
 
     # adding the stock owner id's to the list
-    stock_owner_ids << 0  # these are terra's stock actions (180 actions)
-    stock_owner_ids << 1  # these are maxcomp's stock actions (177 actions)
-
+    tickers << terra_ticker   # terra's ticker
+    tickers << maxcom_ticker  # maxcom's ticker
+    tickers << azteca_ticker  # azteca's ticker
 
     for i in 0..clients_stock_list.length() do
-      k = 0
+      # getting the current stock actions information
+      stock_actions = clients_stock_list[i][1] # the metadata is located at 0 index, but it's not important now
+
+      @db_adapter.insert_yahoo_stock_data()
+
+      # the sql script to be executed in the 'database'
+      sql_insertion_script = ''
+
+      # building the sql script to execute
+      for k in 0..stock_actions.length() do
+        # checking if 'stock_owner' exists in db
+        stock_owner_id = @db_adapter.get_stock_owner_id()
+        # adding 'stock_owner' to database
+        if stock_owner_id <= 0 then
+
+        end
+      end
+
+      # executing the sql script in db (inserting data in db)
+      @db_adapter.exec_sql_script(sql_insertion_script)
     end
-
-    k = 0
-
-    #for clients_stock in clients_stock_list do
-    #
-    #end
   end
 end
 
 # ---------------------------------------------------------------------------------------------------
+
+
 
 # basically executes a sql script in certain database
 def exec_sql_script_in_db(db_name, db_user, db_pass, sql_script)

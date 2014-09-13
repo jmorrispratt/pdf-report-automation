@@ -128,3 +128,7 @@
 #puts("#{(time_taken * 1000.0).to_i()} ms")
 
 # ------------------------------------------------------------------
+
+require './db_adapters.rb'
+
+a = AbstractStocksDbAdapter.new('no_db_name', 'no_db_user', 'no_db_pass')
