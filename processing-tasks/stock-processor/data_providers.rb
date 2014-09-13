@@ -132,12 +132,23 @@ class InfoselDataProvider < AbstractDataProvider
     # getting 'facts'
     ub = data_stream.count() - 1
 
+    # creating the 'actions' holder
     actions = Array.new()
+
     # getting actual stock actions
     for i in FACTS_INDEX..ub
-      # storing raw facts information
-      actions << data_stream[i]
+      # getting current fact
+      curr_fact = data_stream[i]
+
+      # preprocessing date information
+      dt = DateTime.strptime("#{curr_fact[0]} #{curr_fact[1]}", '%m/%d/%Y %I:%M:%S %p')
+      time_stamp_str = "#{dt.year}-#{dt.month}-#{dt.day} #{dt.hour}:#{dt.minute}:#{dt.second}"
+
+      # adding the 'processed' fact
+      actions << [curr_fact[2], curr_fact[3], curr_fact[4], curr_fact[5], curr_fact[6], time_stamp_str,]
     end
+
+    # setting the actions
     stock_info[:actions] = actions
 
     # returning the gathered 'stock_info'
