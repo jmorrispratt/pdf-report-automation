@@ -5,3 +5,6 @@
 
 # excluding .pyc files
 *.pyc
+
+# excluding the folder where reports are generated
+/processing-tasks/stock-processor/reports/

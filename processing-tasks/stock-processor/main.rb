@@ -1,5 +1,6 @@
 require './db_updaters.rb'
 require './db_adapters.rb'
+require './report_generators.rb'
 
 DB_NAME = 'stock_data'
 DB_USER = 'postgres'
@@ -39,35 +40,68 @@ DB_PASS = '123'
 
 # ---------------------------------------------------------------------------------------------------
 
-details_start = Time.now().to_f()
+#details_start = Time.now().to_f()
+#
+#pg_adapter = PgStocksDbAdapter.new(DB_NAME, DB_USER, DB_PASS)
+#
+#enterprise_ticker = 'AZTECA'
+#date_start = DateTime.strptime('2014-08-11 08:00:00 AM', '%Y-%m-%d %I:%M:%S %p')
+#date_end = DateTime.strptime('2014-08-15 3:00:00 PM', '%Y-%m-%d %I:%M:%S %p')
+#
+#details_result = pg_adapter.get_operative_details(enterprise_ticker, date_start, date_end)
+#
+#details_time = Time.now().to_f() - details_start
+#puts("Operative Details Query Time:\t#{(details_time * 1000.0).to_i()} ms")
+#puts('--------------------------------------')
+#
+## getting buyers information
+#puts('Buyers operative details:')
+#
+#buyers_info = details_result[0]
+#buyers_info.each do |row|
+#  puts("#{row['contribution']}%\t\t#{row['mediator_name']}")
+#end
+#
+#puts()
+## getting sellers information
+#puts('Sellers operative details:')
+#
+#sellers_info = details_result[1]
+#sellers_info.each do |row|
+#  puts("#{row['contribution']}%\t\t#{row['mediator_name']}")
+#end
 
-pg_adapter = PgStocksDbAdapter.new(DB_NAME, DB_USER, DB_PASS)
+# ---------------------------------------------------------------------------------------------------
 
-enterprise_ticker = 'AZTECA'
-date_start = DateTime.strptime('2014-08-11 08:00:00 AM', '%Y-%m-%d %I:%M:%S %p')
-date_end = DateTime.strptime('2014-08-15 3:00:00 PM', '%Y-%m-%d %I:%M:%S %p')
+rep_gen = HtmlReportGenerator.new(DB_NAME, DB_USER, DB_PASS)
 
-details_result = pg_adapter.get_operative_details(enterprise_ticker, date_start, date_end)
+client_tickers = Array.new()
+client_tickers << 'AZTECA'
+client_tickers << 'MAXCOM'
 
-details_time = Time.now().to_f() - details_start
-puts("Operative Details Query Time:\t#{(details_time * 1000.0).to_i()} ms")
-puts('--------------------------------------')
+client_tickers.each do |ticker|
+  # report parameters
+  report_name = "#{ticker.downcase().capitalize()} Operative Details"
+  enterprise_ticker = ticker
+  date_start = DateTime.strptime('2014-08-11 08:00:00 AM', '%Y-%m-%d %I:%M:%S %p')
+  date_end = DateTime.strptime('2014-08-15 3:00:00 PM', '%Y-%m-%d %I:%M:%S %p')
 
-# getting buyers information
-puts('Buyers operative details:')
+  # generating report
+  html_content = rep_gen.get_operative_details(report_name, enterprise_ticker, date_start, date_end)
 
-buyers_info = details_result[0]
-buyers_info.each do |row|
-  puts("#{row['contribution']}%\t\t#{row['mediator_name']}")
+  # saving report
+  f = File.new("./reports/#{report_name}.html", 'w')
+  f.write(html_content)
+  f.close()
 end
 
-puts()
-# getting sellers information
-puts('Sellers operative details:')
 
-sellers_info = details_result[1]
-sellers_info.each do |row|
-  puts("#{row['contribution']}%\t\t#{row['mediator_name']}")
-end
+
+
+
+
+
+
+
 
 # ---------------------------------------------------------------------------------------------------
