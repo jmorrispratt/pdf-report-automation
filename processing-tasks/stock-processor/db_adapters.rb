@@ -85,6 +85,10 @@ class AbstractStocksDbAdapter < Object
     def insert_mediator_in_db(mediator_name)
       # empty --> this is like an abstract class method
     end
+
+    def get_operative_details(enterprise_ticker, start_date, end_date)
+      # empty --> this is like an abstract class method
+    end
 end
 
 # ---------------------------------------------------------------------------------------------------
@@ -286,6 +290,124 @@ class PgStocksDbAdapter < AbstractStocksDbAdapter
     end
 
     return NO_ERROR
+  end
+
+  def get_operative_details(enterprise_ticker, start_date, end_date)
+    start_date_str = "#{start_date.year}-#{start_date.month}-#{start_date.day} #{start_date.hour}:#{start_date.minute}:#{start_date.second}"
+    end_date_str = "#{end_date.year}-#{end_date.month}-#{end_date.day} #{end_date.hour}:#{end_date.minute}:#{end_date.second}"
+    limit = 4
+
+    # helper queries
+    q_helpers =
+"
+WITH
+
+stocks_from_enterprise AS
+(
+	SELECT
+		time_stamp,
+		buyer_id,
+		seller_id,
+		volume,
+		total
+	FROM
+		infosel_stock_actions JOIN enterprises ON (stock_owner_id = enterprise_id)
+	WHERE
+		enterprise_ticker = '#{enterprise_ticker}'
+),
+
+-- -------------------------------------------------------------
+
+enterprise_stocks_in_time_range AS
+(
+	SELECT
+		*
+	FROM
+		stocks_from_enterprise
+	WHERE
+		'#{start_date_str}' <= time_stamp AND time_stamp <= '#{end_date_str}'
+),
+
+-- -------------------------------------------------------------
+
+buyers_ranking AS
+(
+	SELECT
+		mediator_name,
+		round(SUM(total) * 100.0 / (SELECT SUM(total) FROM enterprise_stocks_in_time_range), 2) as contribution
+	FROM
+		enterprise_stocks_in_time_range JOIN mediators ON (buyer_id = mediator_id)
+	GROUP BY
+		mediator_name
+	ORDER BY
+		contribution DESC
+	LIMIT #{limit}				-- getting top 'limit' only
+),
+
+-- -------------------------------------------------------------
+
+sellers_ranking AS
+(
+	SELECT
+		mediator_name,
+		round(SUM(total) * 100.0 / (SELECT SUM(total) FROM enterprise_stocks_in_time_range), 2) as contribution
+	FROM
+		enterprise_stocks_in_time_range JOIN mediators ON (seller_id = mediator_id)
+	GROUP BY
+		mediator_name
+	ORDER BY
+		contribution DESC
+	LIMIT #{limit}				-- getting top 'limit' only
+)
+"
+
+    # getting buyer's operative details
+    q_buyers = 'SELECT * FROM buyers_ranking'
+    q_string = "#{q_helpers}\n#{q_buyers}"
+    buyers_details = exec_sql_script(q_string)
+
+    # if there was an error executing the query in the db
+    if buyers_details == nil then
+      raise Exception.new('There was an error in the db. Please, check your parameters.')
+    end
+
+    # processing the query answer
+    buyers_operative_details = Array.new()
+    cum_percent = 0.0
+
+    buyers_details.each do |row|
+      buyers_operative_details << row
+      cum_percent += row['contribution'].to_f()
+    end
+
+    # adding a row associated with other mediators
+    others_percent = 100.0 - cum_percent
+    buyers_operative_details << {'mediator_name' => 'OTROS', 'contribution' => others_percent.round(2)}
+
+    # getting seller's operative details
+    q_sellers = 'SELECT * FROM sellers_ranking'
+    q_string = "#{q_helpers}\n#{q_sellers}"
+    sellers_details = exec_sql_script(q_string)
+
+    # if there was an error executing the query in the db
+    if sellers_details == nil then
+      raise Exception.new('There was an error in the db. Please, check your parameters.')
+    end
+
+    # processing the query answer
+    sellers_operative_details = Array.new()
+    cum_percent = 0.0
+    sellers_details.each do |row|
+      sellers_operative_details << row
+      cum_percent += row['contribution'].to_f()
+    end
+    # adding a row associated with other mediators
+    others_percent = 100.0 - cum_percent
+    sellers_operative_details << {'mediator_name' => 'OTROS', 'contribution' => others_percent.round(2)}
+
+
+    # returning the result
+    return Array.new([buyers_operative_details, sellers_operative_details])
   end
 end
 
