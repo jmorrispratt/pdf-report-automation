@@ -44,7 +44,7 @@ class AbstractStocksDbAdapter < Object
     def exec_sql_script(sql_script)
       # connection must be valid
       if @conn == nil then
-        raise Exception('Invalid database connection. Please check connection parameters.')
+        raise Exception.new('Invalid database connection. Please check connection parameters.')
       end
 
       begin
@@ -146,7 +146,7 @@ class PgStocksDbAdapter < AbstractStocksDbAdapter
 
         # raising exception if there was a db_error
         if exec_result == nil then
-          raise Exception('There was an error inserting in database. Please, check parameters.')
+          raise Exception.new('There was an error inserting in database. Please, check parameters.')
         end
 
         # reseting the sql insertion script
@@ -168,7 +168,7 @@ class PgStocksDbAdapter < AbstractStocksDbAdapter
 
     # if there was an error executing the query in the db
     if q_result == nil then
-      raise Exception('There was an error in the db. Please, check your parameters.')
+      raise Exception.new('There was an error in the db. Please, check your parameters.')
     end
 
     # if the supplied 'ticker' does not exists add it to db
@@ -188,13 +188,13 @@ class PgStocksDbAdapter < AbstractStocksDbAdapter
   end
 
   def insert_enterprise_in_db(enterprise_ticker)
-    column_name = 'enterprise_ticker'
-    q_string = "INSERT INTO enterprises(#{column_name}) VALUES('#{enterprise_ticker}');"
+    column_list = 'enterprise_ticker, enterprise_name'
+    q_string = "INSERT INTO enterprises(#{column_list}) VALUES('#{enterprise_ticker}', '#{enterprise_ticker}');"
     q_result = exec_sql_script(q_string)
 
     # if there was an error executing the query in the db
     if q_result == nil then
-      raise Exception('There was an error in the db. Please, check your parameters.')
+      raise Exception.new('There was an error in the db. Please, check your parameters.')
     end
 
     return NO_ERROR
@@ -234,7 +234,7 @@ class PgStocksDbAdapter < AbstractStocksDbAdapter
 
         # raising exception if there was a db_error
         if exec_result == nil then
-          raise Exception('There was an error inserting in database. Please, check parameters.')
+          raise Exception.new('There was an error inserting in database. Please, check parameters.')
         end
 
         # reseting the sql insertion script
@@ -256,7 +256,7 @@ class PgStocksDbAdapter < AbstractStocksDbAdapter
 
     # if there was an error executing the query in the db
     if q_result == nil then
-      raise Exception('There was an error in the db. Please, check your parameters.')
+      raise Exception.new('There was an error in the db. Please, check your parameters.')
     end
 
     # if the supplied 'mediator_name' does not exists add it to db
@@ -282,7 +282,7 @@ class PgStocksDbAdapter < AbstractStocksDbAdapter
 
     # if there was an error executing the query in the db
     if q_result == nil then
-      raise Exception('There was an error in the db. Please, check your parameters.')
+      raise Exception.new('There was an error in the db. Please, check your parameters.')
     end
 
     return NO_ERROR
