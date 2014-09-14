@@ -115,7 +115,7 @@ class YahooFinanceDbStockUpdater < AbstractDbStockUpdater
     # getting all the retrieved stocks
     clients_stock_list = @data_provider.get_stocks()
 
-    # esto debe ir en un array
+    # the tickers of enterprises in the same order data comes, but this is just for now
     tickers = Array.new()
 
     # adding the stock owner id's to the list
