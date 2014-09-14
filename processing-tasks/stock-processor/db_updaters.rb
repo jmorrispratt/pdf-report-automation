@@ -67,7 +67,18 @@ class InfoselDbStockUpdater < AbstractDbStockUpdater
   end
 
   def update_db()
-    return @data_provider.get_stocks()
+    # getting all the retrieved stocks
+    clients_stock_list = @data_provider.get_stocks()
+
+    ub = clients_stock_list.length() - 1
+    for i in 0..ub do
+      # getting the current stock actions information
+      ticker = clients_stock_list[i][:ticker]
+      stock_actions = clients_stock_list[i][:actions]
+
+      # adding 'current owner' yahoo finance data to database
+      @db_adapter.insert_infosel_stock_data(stock_actions, ticker)
+    end
   end
 end
 
