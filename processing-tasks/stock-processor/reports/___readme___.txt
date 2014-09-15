@@ -1,0 +1,1 @@
+this folder must exists but we're going to ignore all the .html reports generated in this folder
