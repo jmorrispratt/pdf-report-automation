@@ -1,6 +1,8 @@
+# generated with the following rails command:
+# infosel_stock_action buyer_id:integer seller_id:integer volume:integer price:decimal{5,2} total:decimal{10,2} time_stamp:timestamp stock_owner_id:integer
 class CreateInfoselStockActions < ActiveRecord::Migration
   def change
-    create_table :infosel_stock_actions do |t|
+    create_table(:infosel_stock_actions, primary_key: 'action_id') do |t|
       t.integer :buyer_id
       t.integer :seller_id
       t.integer :volume
