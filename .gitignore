@@ -2,9 +2,23 @@
 /db-tasks/ruby/.idea/
 /processing-tasks/stock-processor/.idea/
 /processing-tasks/dj_yahoo_finance/.idea/
+/ror-pdf-reports/.idea/
 
 # excluding .pyc files
 *.pyc
 
 # excluding the .html reports in the 'reports' folder
 /processing-tasks/stock-processor/reports/*.html
+
+# ------------- excluding the excluded files in the rails application
+
+# Ignore bundler config.
+/ror-pdf-reports/.bundle
+
+# Ignore the default SQLite database.
+/ror-pdf-reports/db/*.sqlite3
+/ror-pdf-reports/db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+/ror-pdf-reports/log/*.log
+/ror-pdf-reports/tmp
