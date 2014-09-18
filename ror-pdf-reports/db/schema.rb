@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918003650) do
+ActiveRecord::Schema.define(version: 20140918011729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,19 @@ ActiveRecord::Schema.define(version: 20140918003650) do
 
   create_table "mediators", force: true do |t|
     t.string   "mediator_name", limit: 40
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "yahoo_stock_actions", force: true do |t|
+    t.date     "date"
+    t.decimal  "open",          precision: 5, scale: 2
+    t.decimal  "high",          precision: 5, scale: 2
+    t.decimal  "low",           precision: 5, scale: 2
+    t.decimal  "close",         precision: 5, scale: 2
+    t.integer  "volume"
+    t.decimal  "adj_close",     precision: 5, scale: 2
+    t.integer  "enterprise_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
