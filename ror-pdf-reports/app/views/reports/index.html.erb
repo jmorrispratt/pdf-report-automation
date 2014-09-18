@@ -9,7 +9,7 @@
 
   <tbody>
     <% @reports.each do |report| %>
-      <p><%= report.id %></p>
+      <p><%= report.id %>|<%= report.date %>|<%= report.open %>|<%= report.high %>|<%= report.low %>|<%= report.close %>|<%= report.volume %>|<%= report.adj_close %>|<%= report.enterprise_id %></p>
     <% end %>
   </tbody>
 </table>
