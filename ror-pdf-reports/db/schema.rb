@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140918003224) do
+ActiveRecord::Schema.define(version: 20140918003650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,18 @@ ActiveRecord::Schema.define(version: 20140918003224) do
   create_table "enterprises", force: true do |t|
     t.string   "enterprise_ticker", limit: 50
     t.string   "enterprise_name",   limit: 100
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "infosel_stock_actions", force: true do |t|
+    t.integer  "buyer_id"
+    t.integer  "seller_id"
+    t.integer  "volume"
+    t.decimal  "price",         precision: 5,  scale: 2
+    t.decimal  "total",         precision: 10, scale: 2
+    t.datetime "time_stamp"
+    t.integer  "enterprise_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  buyer_id: 1
+  seller_id: 1
+  volume: 1
+  price: 9.99
+  total: 9.99
+  time_stamp: 2014-09-17 20:36:50
+  enterprise_id: 1
+
+two:
+  buyer_id: 1
+  seller_id: 1
+  volume: 1
+  price: 9.99
+  total: 9.99
+  time_stamp: 2014-09-17 20:36:50
+  enterprise_id: 1
