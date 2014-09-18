@@ -6,6 +6,8 @@ class ReportsController < ApplicationController
     # @reports = YahooStockAction.all()
 
     @reports = YahooStockAction.where(:enterprise_id => 1)
-    k = 0
+
+    # getting the records of the company we're interested in
+    # q_result = YahooStockAction.get_actions_enterprise_with_id(1)
   end
 end

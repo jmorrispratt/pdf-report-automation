@@ -3,4 +3,9 @@
 class YahooStockAction < ActiveRecord::Base
   # enforcing a 'FK' at model level with the table 'enterprises'
   belongs_to :to, :class_name => 'Enterprise', :foreign_key => 'enterprise_id'
+
+  # find all records in 'yahoo_stock_actions' with enterprise_id = id
+  def YahooStockAction.get_actions_enterprise_with_id(id)
+    return YahooStockAction.where(enterprise_id: id)
+  end
 end
